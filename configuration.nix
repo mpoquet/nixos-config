@@ -158,29 +158,120 @@
       mode = "444";
     };
 
-    systemPackages = with pkgs; [
-      # Tools
-      git
-      vim
-      sublime3
-      tree
-      wget
+    # Packages lists
+    systemPackages = let
+      pkgConsoleCommunication = [
+        pkgs.mutt # mail client
+        pkgs.w3m # render html in mutt
+      ];
+      pkgConsoleCosmetics = [
+        pkgs.terminus_font
+      ];
+      pkgConsoleDev = [
+        pkgs.gcc
+        pkgs.gdb
+        pkgs.cgdb # curses interface around gdb
+        pkgs.gnumake
+        pkgs.binutils
+        pkgs.go
+      ];
+      pkgConsoleEditor = [
+        pkgs.vim
+      ];
+      pkgConsoleGit = [
+        pkgs.git
+        pkgs.tig # interface to navigate in a git history
+      ];
+      pkgConsoleNix = [
+        pkgs.nix-repl
+        pkgs.nox
+      ];
+      pkgConsoleSecurity = [
+        pkgs.gnupg
+        pkgs.pass # password-store: pass, passmenu...
+      ];
+      pkgConsoleSurvival = [
+        pkgs.acpi # check battery, temperature...
+        pkgs.file # get information about files
+        pkgs.htop # top on steroids
+        pkgs.nmap # networking swiss knife
+        pkgs.psmisc # process tools (notably killall and pstree)
+        pkgs.tree # print file trees
+        pkgs.unzip
+        pkgs.wget
+        pkgs.xorg.xbacklight # adjust screen backlight brightness
+        pkgs.zip
+      ];
 
-      # Graphical survival
-      xorg.xrandr
-      dmenu
-      pass
-      sakura
-      llpp
-      pavucontrol
+      pkgGraphicalApplets = [
+        pkgs.networkmanagerapplet
+        pkgs.pa_applet # pulseaudio
+        pkgs.redshift # screen color temperature according to time of day
+      ];
+      pkgGraphicalCommon = [
+        pkgs.gnome3.eog # matrix image viewer
+        pkgs.evince # pdf viewer
+        pkgs.filelight # graphical disk-usage
+        pkgs.firefox
+        pkgs.gimp
+        pkgs.libreoffice
+        pkgs.llpp # pdf viewer
+        pkgs.vlc
+      ];
+      pkgGraphicalCommunication = [
+        pkgs.pidgin
+        pkgs.tdesktop
+        pkgs.qtox
+      ];
+      pkgGraphicalCosmetics = [
+        pkgs.breeze-gtk
+        pkgs.breeze-icons
+        pkgs.breeze-qt4
+        pkgs.breeze-qt5
+        pkgs.gnome3.adwaita-icon-theme
+        pkgs.hicolor_icon_theme
+        pkgs.lxappearance # gtk+ theme switcher
+      ];
+      pkgGraphicalEditors = [
+        pkgs.qtcreator
+        pkgs.sublime3
+      ];
+      pkgGraphicalGame = [
+        pkgs.steam
+      ];
+      pkgGraphicalGit = [
+        pkgs.git-cola
+      ];
+      pkgGraphicalSurvival = [
+        pkgs.arandr # GUI around xrandr
+        pkgs.dmenu # amazing tool to graphically ask a value in a list
+        pkgs.i3
+        pkgs.pavucontrol # pulseaudio configuration GUI
+        pkgs.sakura # terminal emulator
+        pkgs.xcwd # retrieves cwd of a X window
+        pkgs.xorg.xev # print X events, notably codes of pressed keys
+        pkgs.xorg.xrandr # configure screens
+      ];
 
-      # Themes and icons
-      breeze-qt5
-      breeze-qt4
-      gnome3.adwaita-icon-theme
-      breeze-icons
-      hicolor_icon_theme
-    ];
+      # Package list aliases
+      pkgConsole = pkgConsoleCommunication
+                   ++ pkgConsoleCosmetics
+                   ++ pkgConsoleDev
+                   ++ pkgConsoleEditor
+                   ++ pkgConsoleGit
+                   ++ pkgConsoleNix
+                   ++ pkgConsoleSecurity
+                   ++ pkgConsoleSurvival;
+
+      pkgGraphical = pkgGraphicalApplets
+                     ++ pkgGraphicalCommon
+                     ++ pkgGraphicalCommunication
+                     ++ pkgGraphicalCosmetics
+                     ++ pkgGraphicalEditors
+                     ++ pkgGraphicalGame
+                     ++ pkgGraphicalGit
+                     ++ pkgGraphicalSurvival;
+    in pkgConsole ++ pkgGraphical;
   };
 
   # Enable zsh
