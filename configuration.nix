@@ -274,6 +274,12 @@
     in pkgConsole ++ pkgGraphical;
   };
 
+  # Add virtualbox and docker
+  virtualisation = {
+    virtualbox.host.enable = true;
+    docker.enable = true;
+  };
+
   # Enable zsh
   programs.zsh.enable = true;
 
@@ -282,6 +288,7 @@
     isNormalUser = true;
     extraGroups = [
       "audio"
+      "docker"
       "networkmanager"
       "wheel"
     ];
