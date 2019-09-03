@@ -7,7 +7,7 @@
 {
   imports =
     [ # Include the results of the hardware scan.
-      ./hw-configuration-laptop-thesis.nix
+      ./hardware/laptop-datamove.nix
     ];
 
   boot.cleanTmpDir = true;
