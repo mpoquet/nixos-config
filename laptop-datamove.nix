@@ -18,7 +18,7 @@
 
   # Network configuration.
   networking = {
-    hostName = "oldnix"; # Define your hostname.
+    hostName = "ionix"; # Define your hostname.
     # wireless.enable = true; # Enables wireless support via wpa_supplicant.
     networkmanager.enable = true;
 
@@ -45,7 +45,7 @@
     git
     zsh oh-my-zsh
     gnome3.networkmanagerapplet pa_applet gnome3.adwaita-icon-theme
-    xcwd sakura firefox
+    xcwd sakura firefox sublime3
   ];
 
   hardware.brightnessctl.enable = true;
@@ -133,6 +133,9 @@
 
   # Nix configuration.
   nix.trustedUsers = [ "root" "@wheel" ];
+
+  # Nixpkgs configuration.
+  nixpkgs.config.allowUnfree = true;
 
   # Define a user account.
   users.defaultUserShell = pkgs.zsh;
