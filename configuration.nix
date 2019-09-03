@@ -3,25 +3,29 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
 { config, pkgs, ... }:
+
 {
   imports =
     [ # Include the results of the hardware scan.
-      ./hw-configuration-laptop-myriads.nix
+      ./hw-configuration-laptop-thesis.nix
     ];
 
-  # Allow unfree packages in system configuration
-  nixpkgs.config.allowUnfree = true;
-
+  boot.cleanTmpDir = true;
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.kernelPackages = pkgs.linuxPackages_4_14;
 
-  # /tmp management
-  boot.cleanTmpDir = true;
-  boot.tmpOnTmpfs = true;
+  # Network configuration.
+  networking = {
+    hostName = "oldnix"; # Define your hostname.
+    # wireless.enable = true; # Enables wireless support via wpa_supplicant.
+    networkmanager.enable = true;
 
-  networking.hostName = "panix"; # Define your hostname.
-  networking.networkmanager.enable = true;
+    # Configure network proxy if necessary
+    # proxy.default = "http://user:password@proxy:port/";
+    # proxy.noProxy = "127.0.0.1,localhost,internal.domain";
+  };
 
   # Select internationalisation properties.
   i18n = {
@@ -33,272 +37,113 @@
   # Set your time zone.
   time.timeZone = "Europe/Paris";
 
+  # List packages installed in system profile. To search, run:
+  # $ nix search wget
+  environment.systemPackages = with pkgs; [
+    pciutils
+    wget vim brightnessctl pass tree gnupg
+    git
+    zsh oh-my-zsh
+    gnome3.networkmanagerapplet pa_applet gnome3.adwaita-icon-theme
+    xcwd sakura firefox
+  ];
+
+  hardware.brightnessctl.enable = true;
+
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
-  programs.bash.enableCompletion = true;
-  programs.mtr.enable = true;
-  programs.gnupg.agent = { enable = true; enableSSHSupport = false; };
-  programs.ssh.startAgent = true;
+  # programs.mtr.enable = true;
+  programs.gnupg.agent = { enable = true; enableSSHSupport = true; };
 
+  programs.zsh = {
+    enable = true;
+    shellAliases = {
+      l = "llpp";
+      lu = "killall -HUP --regexp '(.*bin/)?llpp'";
+    };
+    enableCompletion = true;
+    autosuggestions.enable = true;
+    interactiveShellInit = ''
+      export EDITOR=vim
+      export ZSH=${pkgs.oh-my-zsh}/share/oh-my-zsh
+      export ZSH_THEME="muse"
+      if [ "$(whoami)" = "root" ]; then
+        export ZSH_THEME="darkblood"
+      fi
+      plugins=(git)
+      source $ZSH/oh-my-zsh.sh
+    '';
+    promptInit = "";
+  };
+
+  # List services that you want to enable:
+
+  # Enable the OpenSSH daemon.
+  services.openssh.enable = true;
+  services.redshift = {enable = true; longitude = "-1.6777926"; latitude = "48.117266"; };
+
+  # Open ports in the firewall.
+  # networking.firewall.allowedTCPPorts = [ ... ];
+  # networking.firewall.allowedUDPPorts = [ ... ];
+  # Or disable the firewall altogether.
   networking.firewall.enable = false;
-
-  # Do nothing on lid close
-  services.logind.lidSwitch = "ignore";
-  services.logind.lidSwitchDocked = "ignore";
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
-  services.printing.browsedConf = ''
-    BrowsePoll print.irisa.fr:631
-  '';
 
-  # Enable GeoClue2 (location service, used by redshift)
-  services.geoclue2.enable = true;
+  # Enable sound.
+  sound.enable = true;
+  hardware.pulseaudio.enable = true;
 
-  # Enable the X11 windowing system.
+  # Enable OpenGL.
+  hardware.opengl = {
+    enable = true;
+    driSupport = true;
+    driSupport32Bit = true;
+  };
+
+  # Graphical configuration.
   services.xserver = {
     enable = true;
     layout = "fr";
-    videoDrivers = ["intel"];
+    xkbOptions = "eurosign:e";
 
-    # Touchpad configuration
+    # Enable touchpad support.
     libinput = {
       enable = true;
-      disableWhileTyping = true;
+      scrollMethod = "twofinger";
       tapping = false;
     };
 
-    desktopManager.default = "none";
-    desktopManager.xterm.enable = false;
-    displayManager = {
-      lightdm = {
-        enable = true;
-      };
+    desktopManager = {
+      default = "none";
+      xterm.enable = false;
     };
 
-    windowManager.default = "i3";
-    windowManager.i3.enable = true;
-  };
-
-  # Enable sound
-  hardware = {
-    opengl.enable = true;
-    opengl.driSupport32Bit = true;
-    pulseaudio.enable = true;
-    pulseaudio.support32Bit = true;
-  };
-
-  # Fonts
-  fonts.fonts = with pkgs; [
-    emojione
-    fira-code
-  ];
-
-  # Environment (got from https://github.com/bennofs/etc-nixos)
-  environment = {
-    pathsToLink = [ "/share" ];
-    extraInit = ''
-      # these are the defaults, but some applications are buggy so we set them here anyway
-      export XDG_CONFIG_HOME=$HOME/.config
-      export XDG_DATA_HOME=$HOME/.local/share
-      export XDG_CACHE_HOME=$HOME/.cache
-    '';
-
-    # QT4/5 global theme
-    etc."xdg/Trolltech.conf" = {
-      text = ''
-        [Qt]
-        style=Breeze
-      '';
-      mode = "444";
+    # Enable the i3 window manager
+    windowManager.i3 = {
+      enable = true;
+      extraPackages = with pkgs; [
+        dmenu
+        i3status 
+        i3lock 
+       ];
     };
-  
-    # GTK3 global theme (widget and icon theme)
-    etc."xdg/gtk-3.0/settings.ini" = {
-      text = ''
-        [Settings]
-        gtk-theme-name=Breeze
-        gtk-icon-theme-name=Adwaita
-        gtk-font-name=Sans 14
-        gtk-cursor-theme-name=Adwaita
-        gtk-cursor-theme-size=0
-        gtk-toolbar-style=GTK_TOOLBAR_BOTH
-        gtk-toolbar-icon-size=GTK_ICON_SIZE_LARGE_TOOLBAR
-        gtk-button-images=1
-        gtk-menu-images=1
-        gtk-enable-event-sounds=1
-        gtk-enable-input-feedback-sounds=1
-        gtk-xft-antialias=1
-        gtk-xft-hinting=1
-        gtk-xft-hintstyle=hintslight
-        gtk-xft-rgba=rgb
-      '';
-      mode = "444";
-    };
-
-    # GTK2 global theme (widget and icon theme)
-    etc."xdg/.gtkrc-2.0" = {
-      text = ''
-        gtk-theme-name=Breeze
-        gtk-icon-theme-name=Adwaita
-        gtk-font-name=Sans 14
-        gtk-cursor-theme-name=Adwaita
-        gtk-cursor-theme-size=0
-        gtk-toolbar-style=GTK_TOOLBAR_BOTH
-        gtk-toolbar-icon-size=GTK_ICON_SIZE_LARGE_TOOLBAR
-        gtk-button-images=1
-        gtk-menu-images=1
-        gtk-enable-event-sounds=1
-        gtk-enable-input-feedback-sounds=1
-        gtk-xft-antialias=1
-        gtk-xft-hinting=1
-        gtk-xft-hintstyle=hintslight
-        gtk-xft-rgba=rgb
-      '';
-      mode = "444";
-    };
-
-    # Packages lists
-    systemPackages = let
-      pkgConsoleCommunication = [
-        pkgs.mutt # mail client
-        pkgs.w3m # render html in mutt
-      ];
-      pkgConsoleCosmetics = [
-        pkgs.terminus_font
-      ];
-      pkgConsoleDev = [
-        pkgs.gcc
-        pkgs.gdb
-        pkgs.cgdb # curses interface around gdb
-        pkgs.gnumake
-        pkgs.binutils
-        pkgs.go
-      ];
-      pkgConsoleEditor = [
-        pkgs.vim
-      ];
-      pkgConsoleGit = [
-        pkgs.git
-        pkgs.tig # interface to navigate in a git history
-      ];
-      pkgConsoleNix = [
-        pkgs.nix-repl
-        pkgs.nox
-      ];
-      pkgConsoleSecurity = [
-        pkgs.gnupg
-        pkgs.pass # password-store: pass, passmenu...
-      ];
-      pkgConsoleSurvival = [
-        pkgs.acpi # check battery, temperature...
-        pkgs.file # get information about files
-        pkgs.htop # top on steroids
-        pkgs.nmap # networking swiss knife
-        pkgs.psmisc # process tools (notably killall and pstree)
-        pkgs.tree # print file trees
-        pkgs.unzip
-        pkgs.wget
-        pkgs.xorg.xbacklight # adjust screen backlight brightness
-        pkgs.zip
-      ];
-
-      pkgGraphicalApplets = [
-        pkgs.networkmanagerapplet
-        pkgs.pa_applet # pulseaudio
-        pkgs.redshift # screen color temperature according to time of day
-      ];
-      pkgGraphicalCommon = [
-        pkgs.gnome3.eog # matrix image viewer
-        pkgs.evince # pdf viewer
-        pkgs.filelight # graphical disk-usage
-        pkgs.firefox
-        pkgs.gimp
-        pkgs.libreoffice
-        pkgs.llpp # pdf viewer
-        pkgs.vlc
-      ];
-      pkgGraphicalCommunication = [
-        pkgs.pidgin
-        pkgs.tdesktop
-        pkgs.qtox
-      ];
-      pkgGraphicalCosmetics = [
-        pkgs.breeze-gtk
-        pkgs.breeze-icons
-        pkgs.breeze-qt4
-        pkgs.breeze-qt5
-        pkgs.gnome3.adwaita-icon-theme
-        pkgs.hicolor_icon_theme
-        pkgs.lxappearance # gtk+ theme switcher
-      ];
-      pkgGraphicalEditors = [
-        pkgs.qtcreator
-        pkgs.sublime3
-      ];
-      pkgGraphicalGame = [
-        pkgs.steam
-      ];
-      pkgGraphicalGit = [
-        pkgs.git-cola
-      ];
-      pkgGraphicalSurvival = [
-        pkgs.arandr # GUI around xrandr
-        pkgs.dmenu # amazing tool to graphically ask a value in a list
-        pkgs.i3
-        pkgs.pavucontrol # pulseaudio configuration GUI
-        pkgs.sakura # terminal emulator
-        pkgs.xcwd # retrieves cwd of a X window
-        pkgs.xorg.xev # print X events, notably codes of pressed keys
-        pkgs.xorg.xrandr # configure screens
-      ];
-
-      # Package list aliases
-      pkgConsole = pkgConsoleCommunication
-                   ++ pkgConsoleCosmetics
-                   ++ pkgConsoleDev
-                   ++ pkgConsoleEditor
-                   ++ pkgConsoleGit
-                   ++ pkgConsoleNix
-                   ++ pkgConsoleSecurity
-                   ++ pkgConsoleSurvival;
-
-      pkgGraphical = pkgGraphicalApplets
-                     ++ pkgGraphicalCommon
-                     ++ pkgGraphicalCommunication
-                     ++ pkgGraphicalCosmetics
-                     ++ pkgGraphicalEditors
-                     ++ pkgGraphicalGame
-                     ++ pkgGraphicalGit
-                     ++ pkgGraphicalSurvival;
-    in pkgConsole ++ pkgGraphical;
   };
 
-  # Add virtualbox and docker
-  virtualisation = {
-    virtualbox.host.enable = true;
-    docker.enable = true;
-  };
+  # Nix configuration.
+  nix.trustedUsers = [ "root" "@wheel" ];
 
-  # Enable zsh
-  programs.zsh.enable = true;
-
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.extraUsers.carni = {
+  # Define a user account.
+  users.defaultUserShell = pkgs.zsh;
+  users.users.carni = {
     isNormalUser = true;
-    extraGroups = [
-      "audio"
-      "docker"
-      "networkmanager"
-      "wheel"
-    ];
-    shell= pkgs.zsh;
-    uid = 1000;
+    extraGroups = [ "wheel" "audio" "video" ]; # Enable ‘sudo’ for the user.
   };
 
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database
   # servers. You should change this only after NixOS release notes say you
   # should.
-  system.stateVersion = "17.09"; # Did you read the comment?
+  system.stateVersion = "19.03"; # Did you read the comment?
 }
