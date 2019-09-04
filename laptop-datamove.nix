@@ -41,11 +41,13 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     pciutils
-    wget vim brightnessctl pass tree gnupg
+    wget vim brightnessctl pass tree gnupg htop file
     git
     zsh oh-my-zsh
     gnome3.networkmanagerapplet pa_applet gnome3.adwaita-icon-theme
-    xcwd sakura firefox sublime3
+    sakura xcwd gnome3.eog feh arandr
+    sublime3 qtcreator clang clang-analyzer
+    firefox gimp inkscape llpp
   ];
 
   hardware.brightnessctl.enable = true;
