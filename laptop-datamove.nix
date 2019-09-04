@@ -42,7 +42,7 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     pciutils
-    wget vim brightnessctl pass tree gnupg htop file
+    wget vim brightnessctl pass tree gnupg htop file scrot
     cachix
     git
     zsh oh-my-zsh
