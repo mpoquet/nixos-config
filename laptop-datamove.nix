@@ -6,8 +6,9 @@
 
 {
   imports =
-    [ # Include the results of the hardware scan.
+    [
       ./hardware/laptop-datamove.nix
+      ./cachix.nix
     ];
 
   boot.cleanTmpDir = true;
@@ -42,6 +43,7 @@
   environment.systemPackages = with pkgs; [
     pciutils
     wget vim brightnessctl pass tree gnupg htop file
+    cachix
     git
     zsh oh-my-zsh
     gnome3.networkmanagerapplet pa_applet gnome3.adwaita-icon-theme
