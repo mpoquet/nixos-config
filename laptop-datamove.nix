@@ -50,6 +50,7 @@
     sakura xcwd gnome3.eog feh arandr
     sublime3 qtcreator clang clang-analyzer
     firefox gimp inkscape llpp
+    tdesktop skype hexchat mattermost-desktop
   ];
 
   hardware.brightnessctl.enable = true;
