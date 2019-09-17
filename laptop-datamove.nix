@@ -35,21 +35,35 @@
     defaultLocale = "en_US.UTF-8";
   };
 
+  # Fonts.
+  fonts.fonts = with pkgs; [
+    noto-fonts
+    noto-fonts-cjk
+    noto-fonts-emoji
+    liberation_ttf
+    fira-code
+    fira-code-symbols
+    mplus-outline-fonts
+    dina-font
+    proggyfonts
+  ];
+
   # Set your time zone.
   time.timeZone = "Europe/Paris";
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    pciutils
-    wget vim brightnessctl pass tree gnupg htop file scrot
+    pciutils psmisc
+    wget vim brightnessctl pass tree gnupg htop file scrot acpi unzip jq
+    taskwarrior
     cachix
     git
     zsh oh-my-zsh
     gnome3.networkmanagerapplet pa_applet gnome3.adwaita-icon-theme
-    sakura xcwd gnome3.eog feh arandr
+    sakura xcwd gnome3.eog feh arandr pavucontrol xfce.thunar
     sublime3 qtcreator clang clang-analyzer
-    firefox gimp inkscape llpp
+    firefox gimp inkscape llpp evince vlc
     tdesktop skype hexchat mattermost-desktop
   ];
 
@@ -65,6 +79,7 @@
     shellAliases = {
       l = "llpp";
       lu = "killall -HUP --regexp '(.*bin/)?llpp'";
+      cal = "cal --monday";
     };
     enableCompletion = true;
     autosuggestions.enable = true;
@@ -94,7 +109,12 @@
   networking.firewall.enable = false;
 
   # Enable CUPS to print documents.
-  services.printing.enable = true;
+  services.printing = {
+    enable = true;
+    clientConf = ''
+      ServerName print.imag.fr:631
+    '';
+  };
 
   # Enable sound.
   sound.enable = true;
