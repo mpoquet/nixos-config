@@ -65,7 +65,7 @@
     gnome3.networkmanagerapplet gnome3.networkmanager-openconnect pa_applet
     gnome3.adwaita-icon-theme
     xorg.xev
-    sakura xcwd gnome3.eog feh arandr pavucontrol xfce.thunar
+    sakura vivid xcwd gnome3.eog feh arandr pavucontrol xfce.thunar
     sublime3 qtcreator clang clang-analyzer
     firefox gimp inkscape llpp evince vlc xclip libreoffice
     tdesktop skype hexchat mattermost-desktop
@@ -105,6 +105,7 @@
       fi
       plugins=(git)
       source $ZSH/oh-my-zsh.sh
+      export LS_COLORS="$(vivid generate snazzy)"
       tabs 4
     '';
     promptInit = "";
