@@ -54,18 +54,31 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    manpages
     pciutils psmisc
     wget vim brightnessctl pass tree gnupg htop file scrot acpi unzip jq
-    taskwarrior
+    taskwarrior pdftk poppler_utils
+    openconnect
     cachix
-    git
+    git gdb cgdb
     zsh oh-my-zsh
-    gnome3.networkmanagerapplet pa_applet gnome3.adwaita-icon-theme
+    gnome3.networkmanagerapplet gnome3.networkmanager-openconnect pa_applet
+    gnome3.adwaita-icon-theme
+    xorg.xev
     sakura xcwd gnome3.eog feh arandr pavucontrol xfce.thunar
     sublime3 qtcreator clang clang-analyzer
-    firefox gimp inkscape llpp evince vlc
+    firefox gimp inkscape llpp evince vlc xclip libreoffice
     tdesktop skype hexchat mattermost-desktop
   ];
+
+  documentation = {
+    dev.enable = true;
+    doc.enable = true;
+    enable = true;
+    info.enable = true;
+    man.enable = true;
+    nixos.enable = true;
+  };
 
   hardware.brightnessctl.enable = true;
 
@@ -92,6 +105,7 @@
       fi
       plugins=(git)
       source $ZSH/oh-my-zsh.sh
+      tabs 4
     '';
     promptInit = "";
   };
@@ -101,6 +115,9 @@
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
   services.redshift = {enable = true; longitude = "-1.6777926"; latitude = "48.117266"; };
+
+  # Enable docker.
+  virtualisation.docker.enable = true;
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
@@ -131,7 +148,6 @@
   services.xserver = {
     enable = true;
     layout = "fr";
-    xkbOptions = "eurosign:e";
 
     # Enable touchpad support.
     libinput = {
@@ -150,8 +166,8 @@
       enable = true;
       extraPackages = with pkgs; [
         dmenu
-        i3status 
-        i3lock 
+        i3status
+        i3lock
        ];
     };
   };
@@ -166,7 +182,7 @@
   users.defaultUserShell = pkgs.zsh;
   users.users.carni = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "audio" "video" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "wheel" "audio" "docker" "video" ];
   };
 
   # This value determines the NixOS release with which your system is to be
