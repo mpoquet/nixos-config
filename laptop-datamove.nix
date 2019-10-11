@@ -99,9 +99,9 @@
     interactiveShellInit = ''
       export EDITOR=vim
       export ZSH=${pkgs.oh-my-zsh}/share/oh-my-zsh
-      export ZSH_THEME="muse"
+      export ZSH_THEME="tjkirch"
       if [ "$(whoami)" = "root" ]; then
-        export ZSH_THEME="darkblood"
+        export ZSH_THEME="steeef"
       fi
       plugins=(git)
       source $ZSH/oh-my-zsh.sh
