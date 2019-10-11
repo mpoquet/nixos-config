@@ -114,7 +114,12 @@
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
-  services.redshift = {enable = true; longitude = "-1.6777926"; latitude = "48.117266"; };
+
+  services.redshift.enable = true;
+  location = {
+    longitude = 45.1667;
+    latitude = 5.7167;
+  };
 
   # Enable docker.
   virtualisation.docker.enable = true;
