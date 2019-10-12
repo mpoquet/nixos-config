@@ -65,7 +65,7 @@
     gnome3.networkmanagerapplet gnome3.networkmanager-openconnect pa_applet
     gnome3.adwaita-icon-theme
     xorg.xev
-    sakura xcwd gnome3.eog feh arandr pavucontrol xfce.thunar
+    kitty xcwd gnome3.eog feh arandr pavucontrol xfce.thunar
     sublime3 qtcreator clang clang-analyzer
     firefox gimp inkscape llpp evince vlc xclip libreoffice
     tdesktop skype hexchat mattermost-desktop
