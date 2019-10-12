@@ -4,7 +4,11 @@
 
 { config, pkgs, ... }:
 
-{
+let
+  layout_bepo_mpoquet = pkgs.runCommand "keyboard-layout" {} ''
+    ${pkgs.xorg.xkbcomp}/bin/xkbcomp ${./keyboard-layout/bepo-mpoquet.xkb} $out
+  '';
+in {
   imports =
     [
       ./hardware/laptop-datamove.nix
@@ -64,7 +68,7 @@
     zsh oh-my-zsh
     gnome3.networkmanagerapplet gnome3.networkmanager-openconnect pa_applet
     gnome3.adwaita-icon-theme
-    xorg.xev
+    xorg.xev xorg.xkbcomp
     kitty xcwd gnome3.eog feh arandr pavucontrol xfce.thunar
     sublime3 qtcreator clang clang-analyzer
     firefox gimp inkscape llpp evince vlc xclip libreoffice
@@ -153,6 +157,11 @@
   services.xserver = {
     enable = true;
     layout = "fr";
+    xkbVariant = "bepo";
+
+    # custom keyboard layout
+    exportConfiguration = true;
+    displayManager.sessionCommands = "${pkgs.xorg.xkbcomp}/bin/xkbcomp ${layout_bepo_mpoquet} $DISPLAY";
 
     # Enable touchpad support.
     libinput = {

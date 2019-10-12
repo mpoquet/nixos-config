@@ -1,0 +1,12 @@
+xkb_keymap {
+  xkb_keycodes { include "evdev+aliases(azerty)" };
+  xkb_types    { include "complete" };
+  xkb_compat   { include "complete" };
+  xkb_symbols  {
+    include "pc+fr(bepo)+inet(evdev)+terminate(ctrl_alt_bksp)"
+    key <AE02> { [less, 2, guillemotleft, leftdoublequotemark] };
+    key <AE03> { [greater, 3, guillemotright, rightdoublequotemark] };
+    key <SPCE> { [space, space, underscore, underscore] };
+  };
+  xkb_geometry { include "pc(pc104)" };
+};
