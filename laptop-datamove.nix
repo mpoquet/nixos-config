@@ -93,6 +93,7 @@
       l = "llpp";
       lu = "killall -HUP --regexp '(.*bin/)?llpp'";
       cal = "cal --monday";
+      ssh = "TERM=xterm-color ssh";
     };
     enableCompletion = true;
     autosuggestions.enable = true;
