@@ -61,7 +61,7 @@
     openconnect
     cachix
     git gdb cgdb
-    zsh oh-my-zsh
+    zsh oh-my-zsh any-nix-shell starship
     gnome3.networkmanagerapplet gnome3.networkmanager-openconnect pa_applet
     gnome3.adwaita-icon-theme
     xorg.xev xorg.xkbcomp xvkbd
@@ -90,23 +90,36 @@
   programs.zsh = {
     enable = true;
     shellAliases = {
+      cal = "cal --monday";
+      g = "git";
+      j = "jump";
       l = "llpp";
       lu = "killall -HUP --regexp '(.*bin/)?llpp'";
-      cal = "cal --monday";
       ssh = "TERM=xterm-color ssh";
     };
     enableCompletion = true;
-    autosuggestions.enable = true;
+    autosuggestions.enable = false;
+    ohMyZsh = {
+      enable = true;
+      plugins = [ "jump" "colored-man-pages" ];
+    };
     interactiveShellInit = ''
       export EDITOR=vim
-      export ZSH=${pkgs.oh-my-zsh}/share/oh-my-zsh
-      export ZSH_THEME="tjkirch"
-      if [ "$(whoami)" = "root" ]; then
-        export ZSH_THEME="steeef"
-      fi
-      plugins=(git)
-      source $ZSH/oh-my-zsh.sh
       tabs 4
+
+      function rw () {
+        which_result=$(which $1 2>&1)
+        which_exit_code=$?
+        if [ ''${which_exit_code} -eq 0 ]; then
+          echo $(realpath "''${which_result}")
+        else
+          echo "''${which_result}"
+        fi
+        return ''${which_exit_code}
+      }
+
+      eval "$(starship init zsh)"
+      any-nix-shell zsh | source /dev/stdin
     '';
     promptInit = "";
   };
