@@ -57,7 +57,7 @@ in {
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     manpages
-    pciutils psmisc
+    pciutils psmisc bc entr
     wget vim brightnessctl pass tree gnupg htop file scrot acpi unzip jq
     taskwarrior pdftk poppler_utils
     openconnect
