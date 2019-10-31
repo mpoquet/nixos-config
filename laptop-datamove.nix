@@ -61,7 +61,7 @@
     openconnect
     cachix
     git gdb cgdb
-    zsh oh-my-zsh any-nix-shell starship
+    zsh any-nix-shell
     gnome3.networkmanagerapplet gnome3.networkmanager-openconnect pa_applet
     gnome3.adwaita-icon-theme
     xorg.xev xorg.xkbcomp xvkbd
@@ -118,7 +118,6 @@
         return ''${which_exit_code}
       }
 
-      eval "$(starship init zsh)"
       any-nix-shell zsh | source /dev/stdin
     '';
     promptInit = "";
