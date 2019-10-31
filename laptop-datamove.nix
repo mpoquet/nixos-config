@@ -4,7 +4,9 @@
 
 { config, pkgs, ... }:
 
-{
+let
+  customPackages = pkgs.callPackage ./pkgs/default.nix {};
+in {
   imports =
     [
       ./hardware/laptop-datamove.nix
@@ -102,6 +104,8 @@
     ohMyZsh = {
       enable = true;
       plugins = [ "jump" "colored-man-pages" ];
+      package = customPackages.oh-my-zsh-mpoquet;
+      theme = "mpoquet";
     };
     interactiveShellInit = ''
       export EDITOR=vim
