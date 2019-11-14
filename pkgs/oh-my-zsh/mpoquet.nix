@@ -6,7 +6,7 @@ oh-my-zsh.overrideAttrs (oldAttrs: rec {
   # I do the same so the installPhase script works with my modified copy.
   src = fetchgit {
     url = "https://github.com/mpoquet/oh-my-zsh";
-    rev = "4e0be40d8e9bff6f01f4258ab73bb6e5e6ab8003";
-    sha256 = "0wma9jcjahqnmidwc4w4ndbxzv2lk7fspmip1rv4k7464z8zidy3";
+    rev = "7f5627e31afc51b0f458db19766877e599efbdca";
+    sha256 = "09cpks3vbjqr8z43yv71vchyqa0rrz4v0aikcgnl8an51m0qm66v";
   };
 })

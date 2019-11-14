@@ -63,7 +63,7 @@ in {
     openconnect
     cachix
     git gdb cgdb
-    zsh any-nix-shell
+    zsh
     gnome3.networkmanagerapplet gnome3.networkmanager-openconnect pa_applet
     gnome3.adwaita-icon-theme
     xorg.xev xorg.xkbcomp xvkbd
@@ -103,7 +103,7 @@ in {
     autosuggestions.enable = false;
     ohMyZsh = {
       enable = true;
-      plugins = [ "jump" "colored-man-pages" ];
+      plugins = [ "jump" "colored-man-pages" "nix-shell" ];
       package = customPackages.oh-my-zsh-mpoquet;
       theme = "mpoquet";
     };
@@ -122,7 +122,7 @@ in {
         return ''${which_exit_code}
       }
 
-      any-nix-shell zsh | source /dev/stdin
+      NIX_BUILD_SHELL=zsh
     '';
     promptInit = "";
   };
