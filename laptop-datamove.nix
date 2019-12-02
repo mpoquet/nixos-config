@@ -61,7 +61,7 @@ in {
   environment.systemPackages = with pkgs; [
     manpages
     pciutils psmisc bc entr asciinema tldr
-    wget vim brightnessctl pass tree gnupg htop file scrot acpi unzip jq bat
+    wget vim brightnessctl pass tree gnupg htop file scrot acpi unzip unrar jq bat
     taskwarrior pdftk poppler_utils
     openconnect
     cachix
