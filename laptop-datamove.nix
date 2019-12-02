@@ -19,6 +19,9 @@ in {
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages_4_14;
 
+  # lid close / suspiend
+  services.logind.lidSwitch = "ignore";
+
   # Network configuration.
   networking = {
     hostName = "ionix"; # Define your hostname.
@@ -93,6 +96,7 @@ in {
     enable = true;
     shellAliases = {
       cal = "cal --monday";
+      disable-screen-saver = "xset -dpms";
       g = "git";
       j = "jump";
       l = "llpp";
