@@ -102,6 +102,7 @@ in {
       l = "llpp";
       lu = "killall -HUP --regexp '(.*bin/)?llpp'";
       nb = "nix-build";
+      ne = "nix-env";
       ns = "nix-shell";
       ssh = "TERM=xterm-color ssh";
     };
