@@ -75,7 +75,7 @@ in {
     pciutils psmisc bc entr asciinema tldr
     wget vim brightnessctl pass tree gnupg htop file scrot acpi unzip unrar jq bat
     taskwarrior pdftk poppler_utils
-    openconnect
+    openconnect sshfs
     cachix
     git gdb cgdb
     zsh
