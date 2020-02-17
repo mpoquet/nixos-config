@@ -6,6 +6,18 @@
 
 let
   customPackages = pkgs.callPackage ./pkgs/default.nix {};
+  aliases = {
+    cal = "cal --monday";
+    disable-screen-saver = "xset -dpms";
+    g = "git";
+    j = "jump";
+    l = "llpp";
+    lu = "killall -HUP --regexp '(.*bin/)?llpp'";
+    nb = "nix-build";
+    ne = "nix-env";
+    ns = "nix-shell";
+    ssh = "TERM=xterm-color ssh";
+  };
 in {
   imports =
     [
@@ -94,23 +106,12 @@ in {
 
   programs.zsh = {
     enable = true;
-    shellAliases = {
-      cal = "cal --monday";
-      disable-screen-saver = "xset -dpms";
-      g = "git";
-      j = "jump";
-      l = "llpp";
-      lu = "killall -HUP --regexp '(.*bin/)?llpp'";
-      nb = "nix-build";
-      ne = "nix-env";
-      ns = "nix-shell";
-      ssh = "TERM=xterm-color ssh";
-    };
+    shellAliases = aliases;
     enableCompletion = true;
     autosuggestions.enable = false;
     ohMyZsh = {
       enable = true;
-      plugins = [ "jump" "colored-man-pages" "nix-shell" ];
+      plugins = [ "jump" "colored-man-pages" ];
       package = customPackages.oh-my-zsh-mpoquet;
       theme = "mpoquet";
     };
@@ -129,9 +130,12 @@ in {
         return ''${which_exit_code}
       }
 
-      NIX_BUILD_SHELL=zsh
+      #NIX_BUILD_SHELL=zsh
     '';
     promptInit = "";
+  };
+  programs.bash = {
+    shellAliases = aliases;
   };
 
   # List services that you want to enable:
