@@ -72,13 +72,14 @@ in {
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     manpages
-    pciutils psmisc bc entr asciinema tldr
+    pciutils psmisc bc entr asciinema tldr lsof
     wget vim brightnessctl pass tree gnupg htop file scrot acpi unzip unrar jq bat
     taskwarrior pdftk poppler_utils
-    openconnect sshfs
+    openconnect sshfs nload nmap
     cachix
     git gdb cgdb
     zsh
+    binutils
     gnome3.networkmanagerapplet gnome3.networkmanager-openconnect pa_applet
     gnome3.adwaita-icon-theme
     xorg.xev xorg.xkbcomp xvkbd
