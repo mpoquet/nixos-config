@@ -81,7 +81,7 @@ in {
     zsh
     binutils
     gnome3.networkmanagerapplet gnome3.networkmanager-openconnect pa_applet
-    gnome3.adwaita-icon-theme
+    gnome3.adwaita-icon-theme customPackages.dmenu-setxkbmap
     xorg.xev xorg.xkbcomp xvkbd
     kitty xcwd gnome3.eog feh arandr pavucontrol xfce.thunar
     sublime3 qtcreator clang clang-analyzer
