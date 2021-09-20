@@ -6,6 +6,7 @@
 
 let
   customPackages = pkgs.callPackage ./pkgs/default.nix {};
+  more-recent-nixpkgs = import (fetchTarball http://nixos.org/channels/nixos-unstable/nixexprs.tar.xz) {};
   aliases = {
     cal = "cal --monday";
     disable-screen-saver = "xset -dpms";
@@ -18,6 +19,15 @@ let
     ns = "nix-shell";
     ssh = "TERM=xterm-color ssh";
   };
+  desired-more-recent-pkgs = with more-recent-nixpkgs; [
+    firefox
+    chromium
+    mattermost-desktop
+    signal-desktop
+    tdesktop
+    cachix
+    qtcreator
+  ];
 in {
   imports =
     [
@@ -63,6 +73,7 @@ in {
     mplus-outline-fonts
     dina-font
     proggyfonts
+    terminus_font
   ];
 
   # Set your time zone.
@@ -73,21 +84,21 @@ in {
   environment.systemPackages = with pkgs; [
     manpages
     pciutils psmisc bc entr asciinema tldr lsof
-    wget vim brightnessctl pass tree gnupg htop file scrot acpi unzip unrar jq bat
+    wget vim brightnessctl pass tree gnupg htop file scrot acpi unzip unrar jq bat p7zip
     taskwarrior pdftk poppler_utils
     openconnect sshfs nload nmap
-    cachix
-    git gdb cgdb
+    git
     zsh
+    gdb cgdb lldb valgrind
     binutils
     gnome3.networkmanagerapplet gnome3.networkmanager-openconnect pa_applet
     gnome3.adwaita-icon-theme customPackages.dmenu-setxkbmap
     xorg.xev xorg.xkbcomp xvkbd
     kitty xcwd gnome3.eog feh arandr pavucontrol xfce.thunar
-    sublime3 qtcreator clang clang-analyzer
-    firefox gimp inkscape llpp evince vlc xclip libreoffice
-    tdesktop skype hexchat mattermost-desktop
-  ];
+    sublime3 clang clang-analyzer meld
+    gimp inkscape llpp evince vlc xclip libreoffice impressive
+    skype hexchat
+  ] ++ desired-more-recent-pkgs;
 
   documentation = {
     dev.enable = true;
@@ -162,10 +173,12 @@ in {
   # Enable CUPS to print documents.
   services.printing = {
     enable = true;
-    clientConf = ''
-      ServerName print.imag.fr:631
+    drivers = [ pkgs.gutenprint ];
+    browsedConf = ''
+      BrowsePoll print.imag.fr:631
     '';
   };
+  services.avahi.enable = true;
 
   # Enable sound.
   sound.enable = true;
