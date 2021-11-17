@@ -6,7 +6,11 @@
 
 let
   customPackages = pkgs.callPackage ./pkgs/default.nix {};
-  more-recent-nixpkgs = import (fetchTarball http://nixos.org/channels/nixos-unstable/nixexprs.tar.xz) {};
+  pkgs-19-03 = import (fetchTarball {
+    url = "https://github.com/NixOS/nixpkgs/archive/20.03.tar.gz";
+    sha256 = "0182ys095dfx02vl2a20j1hz92dx3mfgz2a6fhn31bqlp1wa8hlq";
+  }) {};
+  pkgs-unstable = import (fetchTarball http://nixos.org/channels/nixos-unstable/nixexprs.tar.xz) {};
   aliases = {
     cal = "cal --monday";
     disable-screen-saver = "xset -dpms";
@@ -17,9 +21,13 @@ let
     nb = "nix-build";
     ne = "nix-env";
     ns = "nix-shell";
+    pat = "bat -p";
     ssh = "TERM=xterm-color ssh";
   };
-  desired-more-recent-pkgs = with more-recent-nixpkgs; [
+  desired-old-pkgs = with pkgs-19-03; [
+    hexchat
+  ];
+  desired-more-recent-pkgs = with pkgs-unstable; [
     firefox
     chromium
     mattermost-desktop
@@ -59,6 +67,12 @@ in {
     font = "Lat2-Terminus16";
     keyMap = "fr";
   };
+
+  # Fonts
+  fonts.fonts = with pkgs; [
+    nerdfonts
+    liberation_ttf
+  ];
 
   # Enable the X11 windowing system.
   services.xserver = {
@@ -112,8 +126,9 @@ in {
     taskwarrior pdftk poppler_utils
     openconnect sshfs nload nmap
     git
+    customPackages.persodata-wrappers
     zsh
-    gdb cgdb lldb valgrind
+    gdb cgdb lldb valgrind customPackages.cgvg
     binutils
     gnome3.networkmanagerapplet gnome3.networkmanager-openconnect pa_applet
     gnome3.adwaita-icon-theme customPackages.dmenu-setxkbmap
@@ -121,8 +136,8 @@ in {
     kitty xcwd gnome3.eog feh arandr pavucontrol xfce.thunar
     sublime3 clang clang-analyzer meld
     gimp inkscape llpp evince vlc xclip libreoffice
-    skype hexchat
-  ] ++ desired-more-recent-pkgs;
+    skype
+  ] ++ desired-more-recent-pkgs ++ desired-old-pkgs;
 
   documentation = {
     dev.enable = true;
