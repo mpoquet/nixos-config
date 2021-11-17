@@ -29,7 +29,6 @@ let
     hexchat
   ];
   desired-more-recent-pkgs = with pkgs-unstable; [
-    firefox
     chromium
     mattermost-desktop
     signal-desktop
@@ -135,6 +134,7 @@ in {
     openconnect sshfs nload nmap
     git
     customPackages.persodata-wrappers
+    firefox
     zsh
     gdb cgdb lldb valgrind customPackages.cgvg
     binutils
