@@ -20,6 +20,7 @@ let
     lu = "killall -HUP --regexp '(.*bin/)?llpp'";
     nb = "nix-build";
     ne = "nix-env";
+    nightshift = "systemctl stop --user redshift ; redshift -O 4500";
     ns = "nix-shell";
     pat = "bat -p";
     ssh = "TERM=xterm-color ssh";
