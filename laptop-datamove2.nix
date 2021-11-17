@@ -112,6 +112,13 @@ in {
   sound.enable = true;
   hardware.pulseaudio.enable = true;
 
+  # Do nothing on lid switch.
+  services.logind.lidSwitch = "ignore";
+  # Do not shutdown when power button is short-pressed.
+  services.logind.extraConfig = ''
+    HandlePowerKey=ignore
+  '';
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.carni = {
     shell = pkgs.zsh;
