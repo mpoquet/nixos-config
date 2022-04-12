@@ -6,9 +6,13 @@
 
 let
   customPackages = pkgs.callPackage ./pkgs/default.nix {};
-  pkgs-19-03 = import (fetchTarball {
+  pkgs-20-03 = import (fetchTarball {
     url = "https://github.com/NixOS/nixpkgs/archive/20.03.tar.gz";
     sha256 = "0182ys095dfx02vl2a20j1hz92dx3mfgz2a6fhn31bqlp1wa8hlq";
+  }) {};
+  pkgs-21-11 = import (fetchTarball {
+    url = "https://github.com/NixOS/nixpkgs/archive/21.11.tar.gz";
+    sha256 = "162dywda2dvfj1248afxc45kcrg83appjd0nmdb541hl7rnncf02";
   }) {};
   pkgs-unstable = import (fetchTarball http://nixos.org/channels/nixos-unstable/nixexprs.tar.xz) {};
   aliases = {
@@ -25,12 +29,11 @@ let
     pat = "bat -p";
     ssh = "TERM=xterm-color ssh";
   };
-  desired-old-pkgs = with pkgs-19-03; [
+  desired-old-pkgs = with pkgs-20-03; [
     hexchat
   ];
   desired-more-recent-pkgs = with pkgs-unstable; [
     chromium
-    mattermost-desktop
     signal-desktop
     tdesktop
     cachix
@@ -47,6 +50,9 @@ in {
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages_5_15;
   boot.cleanTmpDir = true;
+
+  # enable cgroup v1&v2 (needed by nixos-compose)
+  systemd.enableUnifiedCgroupHierarchy = false;
 
   # Set your time zone.
   time.timeZone = "Europe/Paris";
@@ -78,12 +84,21 @@ in {
   services.xserver = {
     enable = true;
     layout = "fr";
-    
+    videoDrivers = [ "xf86-video-intel" ];
+
     libinput = {
       enable = true;
       touchpad = {
         scrollMethod = "twofinger";
         tapping = false;
+      };
+    };
+
+    extraLayouts = {
+      bepo-mpoquet = {
+        description = "bépo fixed";
+        languages = [ "fr" ];
+        symbolsFile = ./keyboard-layout/bepo-mpoquet.xkb;
       };
     };
 
@@ -100,16 +115,18 @@ in {
   # Enable CUPS to print documents.
   services.printing = {
     enable = true;
-    drivers = [ pkgs.gutenprint ];
-    browsedConf = ''
-      BrowsePoll print.imag.fr:631
-    '';
+    browsing = false;
+    # drivers = [ pkgs.gutenprint ];
+    # browsedConf = ''
+    #   BrowsePoll print.imag.fr:631
+    # '';
   };
   services.avahi.enable = true;
 
   # Enable sound.
   sound.enable = true;
   hardware.pulseaudio.enable = true;
+  hardware.opengl.enable = true;
 
   # Do nothing on lid switch.
   services.logind.lidSwitch = "ignore";
@@ -125,6 +142,12 @@ in {
     extraGroups = [ "wheel" "audio" "docker" "video" "networkmanager" ]; # Enable ‘sudo’ for the user.
   };
 
+  nix = {
+    package = pkgs-21-11.nix_2_4;
+    extraOptions = ''
+      experimental-features = nix-command flakes
+    '';
+  };
   nixpkgs.config.allowUnfree = true;
   environment.systemPackages = with pkgs; [
     manpages
@@ -132,19 +155,21 @@ in {
     wget vim brightnessctl pass tree gnupg htop file scrot acpi unzip unrar jq bat p7zip
     taskwarrior pdftk poppler_utils
     openconnect sshfs nload nmap
-    git
+    git tig
     customPackages.persodata-wrappers
     firefox
     zsh
     gdb cgdb lldb valgrind customPackages.cgvg
+    docker-compose
     binutils
     gnome3.networkmanagerapplet gnome3.networkmanager-openconnect pa_applet
     gnome3.adwaita-icon-theme customPackages.dmenu-setxkbmap
-    xorg.xev xorg.xkbcomp xvkbd
+    xorg.xev xorg.xkbcomp xorg.xmodmap xvkbd
     kitty xcwd gnome3.eog feh arandr pavucontrol xfce.thunar
     sublime3 clang clang-analyzer meld
     gimp inkscape llpp evince vlc xclip libreoffice
-    skype
+    skype mattermost-desktop
+    obs-studio
   ] ++ desired-more-recent-pkgs ++ desired-old-pkgs;
 
   documentation = {
@@ -182,6 +207,10 @@ in {
           echo "''${which_result}"
         fi
         return ''${which_exit_code}
+      }
+
+      function div-branches-roots() {
+        echo "$1 $2 $(git merge-base $1 $2)^\!"
       }
 
       #NIX_BUILD_SHELL=zsh
