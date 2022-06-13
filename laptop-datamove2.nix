@@ -26,6 +26,7 @@ let
     ne = "nix-env";
     nightshift = "systemctl stop --user redshift ; redshift -O 4500";
     ns = "nix-shell";
+    bat = "bat --theme=ansi";
     pat = "bat -p";
     ssh = "TERM=xterm-color ssh";
   };
