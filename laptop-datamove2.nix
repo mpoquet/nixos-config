@@ -37,7 +37,6 @@ let
     chromium
     signal-desktop
     tdesktop
-    cachix
     qtcreator
   ];
 in {
@@ -144,17 +143,17 @@ in {
   };
 
   nix = {
-    package = pkgs-21-11.nix_2_4;
+    package = pkgs.nix;
     extraOptions = ''
       experimental-features = nix-command flakes
     '';
   };
   nixpkgs.config.allowUnfree = true;
   environment.systemPackages = with pkgs; [
-    manpages
+    man-pages
     pciutils psmisc bc entr asciinema tldr lsof
     wget vim brightnessctl pass tree gnupg htop file scrot acpi unzip unrar jq bat p7zip
-    taskwarrior pdftk poppler_utils
+    taskwarrior pdftk poppler_utils cachix
     openconnect sshfs nload nmap
     git tig
     customPackages.persodata-wrappers
@@ -163,14 +162,15 @@ in {
     gdb cgdb lldb valgrind customPackages.cgvg
     docker-compose
     binutils
-    gnome3.networkmanagerapplet gnome3.networkmanager-openconnect pa_applet
+    networkmanagerapplet gnome3.networkmanager-openconnect pa_applet
     gnome3.adwaita-icon-theme customPackages.dmenu-setxkbmap
     xorg.xev xorg.xkbcomp xorg.xmodmap xvkbd
     kitty xcwd gnome3.eog feh arandr pavucontrol xfce.thunar
     sublime3 clang clang-analyzer meld
     gimp inkscape llpp evince vlc xclip libreoffice
-    skype mattermost-desktop
+    skypeforlinux mattermost-desktop
     obs-studio
+    teeworlds
   ] ++ desired-more-recent-pkgs ++ desired-old-pkgs;
 
   documentation = {
