@@ -155,7 +155,7 @@ in {
     wget vim brightnessctl pass tree gnupg htop file scrot acpi unzip unrar jq bat p7zip
     taskwarrior pdftk poppler_utils cachix
     openconnect sshfs nload nmap
-    git tig
+    git tig qgit
     customPackages.persodata-wrappers
     firefox
     zsh
@@ -163,7 +163,7 @@ in {
     docker-compose
     binutils
     networkmanagerapplet gnome3.networkmanager-openconnect pa_applet
-    gnome3.adwaita-icon-theme customPackages.dmenu-setxkbmap
+    gnome3.adwaita-icon-theme customPackages.dmenu-setxkbmap rofimoji
     xorg.xev xorg.xkbcomp xorg.xmodmap xvkbd
     kitty xcwd gnome3.eog feh arandr pavucontrol xfce.thunar
     sublime3 clang clang-analyzer meld
