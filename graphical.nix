@@ -44,6 +44,8 @@
         xcwd
 
         gnome3.eog
+        evince
+        zathura
 
         qgit
         vscode
@@ -60,6 +62,7 @@
 
         tdesktop
         hexchat
+        discord
       ];
     };
   };

@@ -58,6 +58,13 @@ in {
   sound.enable = true;
   hardware.pulseaudio.enable = true;
 
+  services.logind = {
+    lidSwitch = "ignore";
+    extraConfig = ''
+      HandlePowerKey=ignore
+    '';
+  };
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.carni = {
     isNormalUser = true;
@@ -73,9 +80,8 @@ in {
     vim
     git tig
     pass
-
-    binutils pciutils acpi
-    psmisc lsof
+    binutils pciutils acpi hwloc bpytop
+    psmisc lsof htop
     tldr
     tree file bat
     unzip unrar jq p7zip
