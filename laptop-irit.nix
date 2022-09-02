@@ -98,6 +98,12 @@ in {
     enableSSHSupport = true;
   };
 
+  services.redshift.enable = true;
+  location = {
+    longitude = 43.6046;
+    latitude = 1.4442;
+  };
+
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave

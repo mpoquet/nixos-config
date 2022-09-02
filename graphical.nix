@@ -46,6 +46,8 @@
         gnome3.eog
         evince
         zathura
+        xournalpp
+        feh
 
         qgit
         vscode
@@ -53,6 +55,8 @@
 
         firefox
         chromium
+
+        thunderbird
 
         gimp
         inkscape
