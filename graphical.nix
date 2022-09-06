@@ -22,6 +22,14 @@
       };
     };
 
+    displayManager.lightdm = {
+      enable = true;
+      background = pkgs.nixos-artwork.wallpapers.simple-dark-gray-bottom.gnomeFilePath;
+      greeters.gtk.extraConfig = ''
+        user-background = false
+      '';
+    };
+
     windowManager.i3 = {
       enable = true;
       extraPackages = with pkgs; [
