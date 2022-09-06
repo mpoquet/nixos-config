@@ -7,8 +7,8 @@ stdenv.mkDerivation rec {
   src = fetchFromGitHub {
     owner = "mpoquet";
     repo = "cgvg";
-    rev = "64bb96bb3d0584b60b49cb22e0681684a3112814";
-    sha256 = "04h3x0sk79anan3812xgqi44bggmqzvri39gh4k2lk2n7q2xn8c1";
+    rev = "7fef1c9c215b02137fce3b6b4fab526bb1952ece";
+    sha256 = "sha256-E2Yt0jWh0US2y6bGNpqPsV8PE3ONsG2fzvGpMTvVy28=";
   };
 
   buildInputs = [ perl ];
