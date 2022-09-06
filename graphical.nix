@@ -63,6 +63,7 @@
         libreoffice
         vlc
         obs-studio
+        scrot
 
         tdesktop
         hexchat
