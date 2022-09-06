@@ -79,4 +79,6 @@
       ];
     };
   };
+
+  programs.browserpass.enable = true;
 }
