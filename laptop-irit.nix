@@ -19,6 +19,7 @@ in {
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot/efi";
+  boot.cleanTmpDir = true;
 
   # Setup keyfile
   boot.initrd.secrets = {
@@ -87,7 +88,9 @@ in {
     unzip unrar jq p7zip
     pdftk poppler_utils
     brightnessctl
-    openconnect nload nmap
+    openconnect openvpn nload nmap
+    taskwarrior
+    calcurse
   ] ++ [
     localPkgs.cgvg
     localPkgs.persodata-wrappers

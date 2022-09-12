@@ -2,7 +2,7 @@
 
 let
   aliases = {
-    cal = "cal --monday";
+    cal = "cal --monday --week";
     disable-screen-saver = "xset -dpms";
     g = "git";
     j = "jump";
@@ -12,6 +12,7 @@ let
     ne = "nix-env";
     nightshift = "systemctl stop --user redshift ; redshift -O 4500";
     ns = "nix-shell";
+    op = "xdg-open";
     bat = "bat --theme=ansi";
     pat = "bat -p";
     ssh = "TERM=xterm-color ssh";
