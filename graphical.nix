@@ -1,4 +1,4 @@
-{ config, pkgs, localPkgs }:
+{ config, pkgs, unstablePkgs, localPkgs }:
 
 {
   # Enable the X11 windowing system.
@@ -76,6 +76,7 @@
         tdesktop
         hexchat
         discord
+        unstablePkgs.signal-desktop
       ];
     };
   };

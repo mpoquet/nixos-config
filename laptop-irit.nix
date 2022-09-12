@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, unstablePkgs, ... }:
 
 let
   localPkgs = pkgs.callPackage ./pkgs/default.nix {};
@@ -12,7 +12,7 @@ in {
       ./hardware/laptop-irit.nix
 
       (import ./shell.nix { inherit config pkgs localPkgs; })
-      (import ./graphical.nix { inherit config pkgs localPkgs; })
+      (import ./graphical.nix { inherit config pkgs unstablePkgs localPkgs; })
     ];
 
   # Bootloader.
