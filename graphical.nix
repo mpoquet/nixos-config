@@ -75,7 +75,7 @@
 
         tdesktop
         hexchat
-        discord
+        unstablePkgs.discord
         unstablePkgs.signal-desktop
       ];
     };

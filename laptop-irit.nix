@@ -78,6 +78,7 @@ in {
   nixpkgs.config.allowUnfree = true;
 
   environment.systemPackages = with pkgs; [
+    man-pages
     vim
     git tig
     pass
@@ -90,7 +91,7 @@ in {
     brightnessctl
     openconnect openvpn nload nmap
     taskwarrior
-    calcurse
+    calcurse mutt
   ] ++ [
     localPkgs.cgvg
     localPkgs.persodata-wrappers
