@@ -47,12 +47,11 @@
 
         localPkgs.dmenu-setxkbmap
         rofimoji
-        
         kitty
         xcwd
 
-        gnome3.eog
-        evince
+        gnome.eog
+        evince mupdf beamerpresenter
         zathura
         xournalpp
         feh
@@ -75,6 +74,7 @@
 
         tdesktop
         hexchat
+        unstablePkgs.mattermost-desktop
         unstablePkgs.discord
         unstablePkgs.signal-desktop
       ];
