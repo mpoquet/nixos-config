@@ -85,6 +85,8 @@ in {
     binutils pciutils acpi hwloc bpytop
     psmisc lsof htop
     tldr
+    termtosvg asciinema
+    tmux
     tree file bat
     unzip unrar jq p7zip
     pdftk poppler_utils
@@ -92,6 +94,7 @@ in {
     openconnect openvpn nload nmap
     taskwarrior
     calcurse mutt
+    termdown
   ] ++ [
     localPkgs.cgvg
     localPkgs.persodata-wrappers

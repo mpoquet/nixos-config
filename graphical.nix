@@ -46,9 +46,9 @@
         pavucontrol
 
         localPkgs.dmenu-setxkbmap
-        rofimoji
+        rofimoji kcolorchooser
         kitty
-        xcwd
+        xcwd xclip
 
         gnome.eog
         evince mupdf beamerpresenter
