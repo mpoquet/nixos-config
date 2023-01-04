@@ -5,7 +5,7 @@ oh-my-zsh.overrideAttrs (oldAttrs: rec {
   src = fetchFromGitHub {
     owner = "mpoquet";
     repo = "oh-my-zsh";
-    rev = "8c623a36854db504473d6f51f6d652f9ec34dc8b";
-    sha256 = "sha256-rrMbTBgBs/pVlh+0zGcuX1ob9Ji4jFTWUPTafToCuVU=";
+    rev = "dcad6c8d4a3ba0e201768a6179b3179444744a33";
+    sha256 = "sha256-/8v9ccTTyGHywv+4BEk30Z+1Xe1NGEnNiZfH7YcHb/Y=";
   };
 })

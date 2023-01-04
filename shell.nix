@@ -11,11 +11,12 @@ let
     nb = "nix-build";
     ne = "nix-env";
     nightshift = "systemctl stop --user redshift ; redshift -O 4500";
-    ns = "nix-shell";
+    ns = "nix-shell --command zsh";
     op = "xdg-open";
     bat = "bat --theme=ansi";
     pat = "bat -p";
     ssh = "TERM=xterm-color ssh";
+    cdr = "cd $(git rev-parse --show-toplevel || echo .)";
   };
 in {
   programs.bash = {

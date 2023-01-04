@@ -95,6 +95,7 @@ in {
     taskwarrior
     calcurse mutt
     termdown
+    wget
   ] ++ [
     localPkgs.cgvg
     localPkgs.persodata-wrappers
