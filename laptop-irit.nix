@@ -19,7 +19,7 @@ in {
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot/efi";
-  boot.cleanTmpDir = true;
+  boot.tmp.cleanOnBoot = true;
 
   # Setup keyfile
   boot.initrd.secrets = {
@@ -88,7 +88,7 @@ in {
     vim
     git tig
     pass ccrypt
-    binutils pciutils acpi hwloc bpytop
+    binutils pciutils acpi hwloc btop
     psmisc lsof htop usbutils
     tldr
     termtosvg asciinema
