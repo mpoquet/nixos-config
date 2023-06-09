@@ -56,8 +56,12 @@ in {
   services.printing.enable = true;
 
   # Enable sound
-  sound.enable = true;
-  hardware.pulseaudio.enable = true;
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    pulse.enable = true;
+  };
 
   services.logind = {
     lidSwitch = "ignore";
@@ -102,6 +106,7 @@ in {
     calcurse mutt
     termdown
     wget
+    pulseaudio
   ] ++ [
     localPkgs.cgvg
     localPkgs.persodata-wrappers
