@@ -61,8 +61,7 @@
         meld
 
         firefox
-        chromium
-
+        unstablePkgs.chromium
         thunderbird
 
         gimp
@@ -77,6 +76,7 @@
         unstablePkgs.mattermost-desktop
         unstablePkgs.discord
         unstablePkgs.signal-desktop
+        unstablePkgs.whatsapp-for-linux
       ];
     };
   };

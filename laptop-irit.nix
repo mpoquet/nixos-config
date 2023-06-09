@@ -66,6 +66,11 @@ in {
     '';
   };
 
+  virtualisation.docker.rootless = {
+    enable = true;
+    setSocketVariable = true;
+  };
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.carni = {
     isNormalUser = true;
@@ -74,6 +79,7 @@ in {
     extraGroups = [ "networkmanager" "audio" "video" "wheel" "docker" ];
   };
 
+  nix.package = unstablePkgs.nix;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   nixpkgs.config.allowUnfree = true;
 
@@ -81,9 +87,9 @@ in {
     man-pages
     vim
     git tig
-    pass
+    pass ccrypt
     binutils pciutils acpi hwloc bpytop
-    psmisc lsof htop
+    psmisc lsof htop usbutils
     tldr
     termtosvg asciinema
     tmux
