@@ -29,7 +29,38 @@ in {
   networking.hostName = "nyx"; # Define your hostname.
 
   # Enable networking
-  networking.networkmanager.enable = true;
+  networking.networkmanager = {
+    enable = true;
+    dispatcherScripts = [
+      # Automatically disable/enable wifi when ethernet is plugged in/out
+      {
+        source = pkgs.writeText "hook" ''
+          if [ "$1" != "enp44s0" ]; then
+            logger "exit: event $1 != enp44s0"
+            exit
+          fi
+
+          case "$2" in
+            up)
+              logger "disabling wifi"
+              ${pkgs.networkmanager}/bin/nmcli radio wifi off
+              ;;
+
+            down)
+              logger "enabling wifi"
+              ${pkgs.networkmanager}/bin/nmcli radio wifi on
+              ;;
+
+            *)
+              logger "exit: $2 neither 'up' nor 'down'"
+              exit
+              ;;
+          esac
+        '';
+        type = "basic";
+      }
+    ];
+  };
 
   # Set your time zone.
   time.timeZone = "Europe/Paris";
