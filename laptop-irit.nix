@@ -55,13 +55,16 @@ in {
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
-  # Enable sound
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    pulse.enable = true;
-  };
+  # Enable sound and make pulseaudio sinks/sources readable
+  hardware.pulseaudio.enable = true;
+  hardware.pulseaudio.extraConfig = ''
+    update-sink-proplist alsa_output.pci-0000_00_1f.3-platform-skl_hda_dsp_generic.HiFi__hw_sofhdadsp_3__sink device.description='HDMI 1'
+    update-sink-proplist alsa_output.pci-0000_00_1f.3-platform-skl_hda_dsp_generic.HiFi__hw_sofhdadsp_4__sink device.description='HDMI 2'
+    update-sink-proplist alsa_output.pci-0000_00_1f.3-platform-skl_hda_dsp_generic.HiFi__hw_sofhdadsp_5__sink device.description='HDMI 3'
+    update-sink-proplist alsa_output.pci-0000_00_1f.3-platform-skl_hda_dsp_generic.HiFi__hw_sofhdadsp__sink device.description='Speaker + Headphones'
+    update-source-proplist alsa_input.pci-0000_00_1f.3-platform-skl_hda_dsp_generic.HiFi__hw_sofhdadsp_6__source device.description='Laptop microphone'
+    update-source-proplist alsa_input.pci-0000_00_1f.3-platform-skl_hda_dsp_generic.HiFi__hw_sofhdadsp__source device.description='Headset microphone'
+  '';
 
   services.logind = {
     lidSwitch = "ignore";
@@ -74,6 +77,7 @@ in {
     enable = true;
     setSocketVariable = true;
   };
+  virtualisation.virtualbox.host.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.carni = {
@@ -82,6 +86,13 @@ in {
     description = "carni";
     extraGroups = [ "networkmanager" "audio" "video" "wheel" "docker" ];
   };
+  users.extraGroups.vboxusers.members = [ "carni" ];
+
+  fonts.fonts = with pkgs; [
+    fira
+    fira-code
+    inconsolata
+  ];
 
   nix.package = unstablePkgs.nix;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -97,6 +108,7 @@ in {
     tldr
     termtosvg asciinema
     tmux
+    qtcreator
     tree file bat
     unzip unrar jq p7zip
     pdftk poppler_utils
@@ -106,7 +118,6 @@ in {
     calcurse mutt
     termdown
     wget
-    pulseaudio
   ] ++ [
     localPkgs.cgvg
     localPkgs.persodata-wrappers

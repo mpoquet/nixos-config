@@ -1,6 +1,9 @@
 { config, pkgs, unstablePkgs, localPkgs }:
 
 {
+  hardware.opengl.enable = true;
+  hardware.opengl.driSupport32Bit = true;
+
   # Enable the X11 windowing system.
   services.xserver = {
     enable = true;
@@ -51,7 +54,7 @@
         xcwd xclip
 
         gnome.eog
-        evince mupdf beamerpresenter
+        evince mupdf beamerpresenter pdfpc
         zathura
         xournalpp
         feh
@@ -59,6 +62,9 @@
         qgit
         vscode
         meld
+
+        lutris
+        wine
 
         firefox
         unstablePkgs.chromium
