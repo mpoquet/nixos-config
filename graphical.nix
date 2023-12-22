@@ -48,6 +48,9 @@
         arandr
         pavucontrol
 
+        pinentry-qt
+        browserpass
+
         localPkgs.dmenu-setxkbmap
         rofimoji kcolorchooser
         kitty

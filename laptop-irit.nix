@@ -119,7 +119,7 @@ in {
   };
   users.extraGroups.vboxusers.members = [ "carni" ];
 
-  fonts.fonts = with pkgs; [
+  fonts.packages = with pkgs; [
     fira
     fira-code
     inconsolata
