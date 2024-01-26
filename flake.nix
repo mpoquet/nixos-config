@@ -17,5 +17,10 @@
         specialArgs = { inherit unstablePkgs; };
         modules = [ ./laptop-irit.nix ];
       };
+      nixosConfigurations.heavyx = nixpkgs.lib.nixosSystem {
+        inherit system;
+        specialArgs = { inherit unstablePkgs; };
+        modules = [ ./heavyx.nix ];
+      };
     };
 }
