@@ -1,21 +1,10 @@
 { config, pkgs, unstablePkgs, localPkgs }:
 
 {
-  hardware.opengl.enable = true;
-  hardware.opengl.driSupport32Bit = true;
-
   # Enable the X11 windowing system.
   services.xserver = {
     enable = true;
     layout = "fr";
-
-    libinput = {
-      enable = true;
-      touchpad = {
-        scrollMethod = "twofinger";
-        tapping = false;
-      };
-    };
 
     extraLayouts = {
       bepo-mpoquet = {
@@ -63,10 +52,9 @@
         feh
 
         qgit
-        vscode
+        vscodium
         meld
 
-        lutris
         wine
 
         firefox

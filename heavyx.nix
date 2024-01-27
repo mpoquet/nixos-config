@@ -2,12 +2,17 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, unstablePkgs, ... }:
+{ config, pkgs, unstablePkgs, localPkgs, ... }:
 
-{
+let
+  localPkgs = pkgs.callPackage ./pkgs/default.nix {};
+in {
   imports = [
-    # Include the results of the hardware scan.
     ./hardware/heavyx.nix
+
+    (import ./headless.nix { inherit config pkgs unstablePkgs localPkgs; })
+    (import ./shell.nix { inherit config pkgs localPkgs; })
+    (import ./graphical.nix { inherit config pkgs unstablePkgs localPkgs; })
   ];
 
   # gpu
@@ -60,12 +65,13 @@
   };
 
   # Enable the X11 windowing system.
-  services.xserver.enable = true;
+  services.xserver = {
+    enable = true;
 
-  # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.defaultSession = "xfce";
-  services.xserver.desktopManager.xfce.enable = true;
-  services.xserver.desktopManager.xterm.enable = false;
+    desktopManager.xterm.enable = false;
+    displayManager.defaultSession = "xfce";
+    desktopManager.xfce.enable = true;
+  };
 
   # Configure keymap in X11
   services.xserver = {
@@ -102,6 +108,7 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.carni = {
     isNormalUser = true;
+    shell = pkgs.zsh;
     description = "carni";
     extraGroups = [ "networkmanager" "wheel" ];
   };
@@ -112,11 +119,7 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    vim
-    git
-    pass
-    vscodium lapce
-    firefox
+    lapce
   ];
 
   programs.gnupg.agent = {
@@ -156,5 +159,4 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "23.11"; # Did you read the comment?
-
 }

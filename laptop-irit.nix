@@ -21,6 +21,16 @@ in {
   boot.loader.efi.efiSysMountPoint = "/boot/efi";
   boot.tmp.cleanOnBoot = true;
 
+  hardware.opengl.enable = true;
+  hardware.opengl.driSupport32Bit = true;
+  services.xserver.libinput = {
+    enable = true;
+    touchpad = {
+      scrollMethod = "twofinger";
+      tapping = false;
+    };
+  };
+
   # Setup keyfile
   boot.initrd.secrets = {
     "/crypto_keyfile.bin" = null;
