@@ -67,10 +67,7 @@ in {
   # Enable the X11 windowing system.
   services.xserver = {
     enable = true;
-
     desktopManager.xterm.enable = false;
-    displayManager.defaultSession = "xfce";
-    desktopManager.xfce.enable = true;
   };
 
   # Configure keymap in X11
