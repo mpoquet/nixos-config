@@ -10,11 +10,10 @@
     psmisc lsof htop usbutils
     tldr
     termtosvg asciinema
-    tmux
     tree file bat
     unzip unrar jq p7zip
     pdftk poppler_utils
-    openconnect openvpn nmap
+    nmap
     calcurse
     termdown
     wget
