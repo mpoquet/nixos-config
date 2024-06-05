@@ -12,6 +12,7 @@ in {
       ./hardware/laptop-irit.nix
 
       (import ./shell.nix { inherit config pkgs localPkgs; })
+      (import ./headless.nix { inherit config pkgs unstablePkgs localPkgs; })
       (import ./graphical.nix { inherit config pkgs unstablePkgs localPkgs; })
     ];
 
@@ -140,28 +141,7 @@ in {
   nixpkgs.config.allowUnfree = true;
 
   environment.systemPackages = with pkgs; [
-    man-pages
-    vim
-    git tig
-    pass ccrypt
-    binutils pciutils acpi hwloc btop
-    psmisc lsof htop usbutils
-    tldr
-    termtosvg asciinema
-    tmux
-    qtcreator
-    tree file bat
-    unzip unrar jq p7zip
-    pdftk poppler_utils
     brightnessctl
-    openconnect openvpn nload nmap
-    taskwarrior
-    calcurse mutt
-    termdown
-    wget
-  ] ++ [
-    localPkgs.cgvg
-    localPkgs.persodata-wrappers
   ];
 
   programs.gnupg.agent = {
