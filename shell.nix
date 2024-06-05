@@ -53,8 +53,12 @@ in {
         echo "$1 $2 $(git merge-base $1 $2)^\!"
       }
 
-      #NIX_BUILD_SHELL=zsh
+      eval "$(zoxide init zsh)"
     '';
     promptInit = "";
   };
+
+  environment.systemPackages = with pkgs; [
+    zoxide
+  ];
 }

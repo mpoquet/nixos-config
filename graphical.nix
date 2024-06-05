@@ -4,9 +4,9 @@
   # Enable the X11 windowing system.
   services.xserver = {
     enable = true;
-    layout = "fr";
 
-    extraLayouts = {
+    xkb.layout = "fr";
+    xkb.extraLayouts = {
       bepo-mpoquet = {
         description = "bépo fixed";
         languages = [ "fr" ];
@@ -52,7 +52,7 @@
         feh
 
         qgit
-        vscodium
+        vscodium vscode
         meld
 
         wine

@@ -2,11 +2,11 @@
 
 {
   environment.systemPackages = with pkgs; [
-    man-pages
+    man-pages fzf
     vim
     git tig
     pass ccrypt
-    binutils pciutils acpi hwloc du-dust
+    binutils pciutils acpi hwloc du-dust zenith
     psmisc lsof htop usbutils
     tldr
     termtosvg asciinema
@@ -18,8 +18,6 @@
     calcurse
     termdown
     wget
-  ] ++ [
-    unstablePkgs.zenith
   ] ++ [
     localPkgs.cgvg
     localPkgs.persodata-wrappers
