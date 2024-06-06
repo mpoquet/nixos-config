@@ -97,15 +97,18 @@ in {
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
-  # Enable sound and make pulseaudio sinks/sources readable
+  # Enable sound and make pulseaudio sinks/sources readable. list got via
+  # - pactl list sinks | grep Name
+  # - pactl list sources | grep Name
   hardware.pulseaudio.enable = true;
   hardware.pulseaudio.extraConfig = ''
-    update-sink-proplist alsa_output.pci-0000_00_1f.3-platform-skl_hda_dsp_generic.HiFi__hw_sofhdadsp_3__sink device.description='HDMI 1'
-    update-sink-proplist alsa_output.pci-0000_00_1f.3-platform-skl_hda_dsp_generic.HiFi__hw_sofhdadsp_4__sink device.description='HDMI 2'
-    update-sink-proplist alsa_output.pci-0000_00_1f.3-platform-skl_hda_dsp_generic.HiFi__hw_sofhdadsp_5__sink device.description='HDMI 3'
-    update-sink-proplist alsa_output.pci-0000_00_1f.3-platform-skl_hda_dsp_generic.HiFi__hw_sofhdadsp__sink device.description='Speaker + Headphones'
-    update-source-proplist alsa_input.pci-0000_00_1f.3-platform-skl_hda_dsp_generic.HiFi__hw_sofhdadsp_6__source device.description='Laptop microphone'
-    update-source-proplist alsa_input.pci-0000_00_1f.3-platform-skl_hda_dsp_generic.HiFi__hw_sofhdadsp__source device.description='Headset microphone'
+    update-sink-proplist alsa_output.pci-0000_00_1f.3-platform-skl_hda_dsp_generic.HiFi__HDMI1__sink device.description='HDMI 1'
+    update-sink-proplist alsa_output.pci-0000_00_1f.3-platform-skl_hda_dsp_generic.HiFi__HDMI2__sink device.description='HDMI 2'
+    update-sink-proplist alsa_output.pci-0000_00_1f.3-platform-skl_hda_dsp_generic.HiFi__HDMI3__sink device.description='HDMI 3'
+    update-sink-proplist alsa_output.pci-0000_00_1f.3-platform-skl_hda_dsp_generic.HiFi__Speaker__sink device.description='Speaker + Headphones'
+
+    update-source-proplist alsa_input.pci-0000_00_1f.3-platform-skl_hda_dsp_generic.HiFi__Mic1__source device.description='Laptop microphone'
+    update-source-proplist alsa_input.pci-0000_00_1f.3-platform-skl_hda_dsp_generic.HiFi__Mic2__source device.description='Headset microphone'
   '';
 
   services.logind = {
