@@ -32,12 +32,13 @@ in {
   };
 
   services.xserver.videoDrivers = [ "nvidia" ];
+  #services.openssh.enable = true;
 
-  # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.tmp.cleanOnBoot = true;
 
-  networking.hostName = "heavyx"; # Define your hostname.
+  networking.hostName = "heavyx";
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
@@ -71,9 +72,9 @@ in {
   };
 
   # Configure keymap in X11
-  services.xserver = {
+  services.xserver.xkb = {
     layout = "fr";
-    xkbVariant = "azerty";
+    variant = "azerty";
   };
 
   # Configure console keymap
@@ -115,8 +116,9 @@ in {
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs; [
+  environment.systemPackages = with unstablePkgs; [
     lapce
+    pulseaudio
   ];
 
   programs.gnupg.agent = {
@@ -128,6 +130,12 @@ in {
     enable = true;
     remotePlay.openFirewall = false;
     dedicatedServer.openFirewall = false;
+  };
+
+  services.redshift.enable = true;
+  location = {
+    longitude = 43.6046;
+    latitude = 1.4442;
   };
 
   # Some programs need SUID wrappers, can be configured further or are

@@ -46,7 +46,7 @@
         xcwd xclip
 
         gnome.eog
-        evince mupdf beamerpresenter pdfpc
+        evince mupdf pdfpc
         zathura
         xournalpp
         feh
@@ -56,6 +56,7 @@
         meld
 
         wine
+        winetricks
 
         firefox
         unstablePkgs.chromium

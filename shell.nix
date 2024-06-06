@@ -6,7 +6,6 @@ let
     disable-screen-saver = "xset -dpms";
     g = "git";
     j = "jump";
-    l = "llpp";
     lu = "killall -HUP --regexp '(.*bin/)?llpp'";
     nb = "nix-build";
     ne = "nix-env";
