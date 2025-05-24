@@ -16,19 +16,18 @@ in {
   ];
 
   # gpu
-  hardware.opengl = {
+  hardware.graphics = {
     enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
+    enable32Bit = true;
   };
 
   hardware.nvidia = {
     modesetting.enable = true;
     powerManagement.enable = false;
     powerManagement.finegrained = false;
-    open = false;
+    open = true;
     nvidiaSettings = true;
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
+    package = config.boot.kernelPackages.nvidiaPackages.latest;
   };
 
   services.xserver.videoDrivers = [ "nvidia" ];
@@ -84,8 +83,7 @@ in {
   services.printing.enable = true;
 
   # Enable sound with pipewire.
-  sound.enable = true;
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -108,7 +106,7 @@ in {
     isNormalUser = true;
     shell = pkgs.zsh;
     description = "carni";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" ];
   };
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -120,6 +118,8 @@ in {
     lapce
     pulseaudio
   ];
+
+  virtualisation.docker.enable = true;
 
   programs.gnupg.agent = {
     enable = true;

@@ -41,11 +41,11 @@
         browserpass
 
         localPkgs.dmenu-setxkbmap
-        rofimoji kcolorchooser
+        rofi rofimoji kdePackages.kcolorchooser
         kitty
         xcwd xclip
 
-        gnome.eog
+        eog
         evince mupdf pdfpc
         zathura
         xournalpp
@@ -75,6 +75,7 @@
         unstablePkgs.discord
         unstablePkgs.signal-desktop
         unstablePkgs.whatsapp-for-linux
+        unstablePkgs.element-desktop
       ];
     };
   };
