@@ -17,6 +17,7 @@
     calcurse
     termdown
     wget
+    ripgrep
   ] ++ [
     localPkgs.cgvg
     localPkgs.persodata-wrappers

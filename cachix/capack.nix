@@ -1,9 +1,9 @@
 {
-  nix = {
-    binaryCaches = [
+  nix.settings = {
+    substituters = [
       "https://capack.cachix.org"
     ];
-    binaryCachePublicKeys = [
+    trusted-public-keys = [
       "capack.cachix.org-1:38D+QFk3JXvMYJuhSaZ+3Nm/Qh+bZJdCrdu4pkIh5BU="
     ];
   };

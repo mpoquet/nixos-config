@@ -11,6 +11,9 @@ in {
     [ # Include the results of the hardware scan.
       ./hardware/laptop-irit.nix
 
+      # cache config
+      ./cachix.nix
+
       (import ./shell.nix { inherit config pkgs localPkgs; })
       (import ./headless.nix { inherit config pkgs unstablePkgs localPkgs; })
       (import ./graphical.nix { inherit config pkgs unstablePkgs localPkgs; })
@@ -22,8 +25,21 @@ in {
   boot.loader.efi.efiSysMountPoint = "/boot/efi";
   boot.tmp.cleanOnBoot = true;
 
-  hardware.opengl.enable = true;
-  hardware.opengl.driSupport32Bit = true;
+  # needed to cross-compile aarch64 nixos images for os design course
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+
+  hardware.graphics = {
+    enable = true;
+    enable32Bit = true;
+    extraPackages = [
+      pkgs.intel-media-driver
+      #pkgs.intel-vaapi-driver
+      pkgs.libvdpau-va-gl
+    ];
+  };
+  environment.sessionVariables = { LIBVA_DRIVER_NAME = "iHD"; }; # Force intel-media-driver
+  hardware.intel-gpu-tools.enable = true;
+
   services.libinput = {
     enable = true;
     touchpad = {
@@ -77,18 +93,18 @@ in {
   time.timeZone = "Europe/Paris";
 
   # Select internationalisation properties.
-  i18n.defaultLocale = "en_US.utf8";
+  i18n.defaultLocale = "en_US.UTF-8";
 
   i18n.extraLocaleSettings = {
-    LC_ADDRESS = "fr_FR.utf8";
-    LC_IDENTIFICATION = "fr_FR.utf8";
-    LC_MEASUREMENT = "fr_FR.utf8";
-    LC_MONETARY = "fr_FR.utf8";
-    LC_NAME = "fr_FR.utf8";
-    LC_NUMERIC = "fr_FR.utf8";
-    LC_PAPER = "fr_FR.utf8";
-    LC_TELEPHONE = "fr_FR.utf8";
-    LC_TIME = "fr_FR.utf8";
+    LC_ADDRESS = "fr_FR.UTF-8";
+    LC_IDENTIFICATION = "fr_FR.UTF-8";
+    LC_MEASUREMENT = "fr_FR.UTF-8";
+    LC_MONETARY = "fr_FR.UTF-8";
+    LC_NAME = "fr_FR.UTF-8";
+    LC_NUMERIC = "fr_FR.UTF-8";
+    LC_PAPER = "fr_FR.UTF-8";
+    LC_TELEPHONE = "fr_FR.UTF-8";
+    LC_TIME = "fr_FR.UTF-8";
   };
 
   # Configure console keymap
@@ -97,19 +113,31 @@ in {
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
+  # ssh server
+  services.openssh.enable = false;
+
   # Enable sound and make pulseaudio sinks/sources readable. list got via
   # - pactl list sinks | grep Name
   # - pactl list sources | grep Name
-  hardware.pulseaudio.enable = true;
-  hardware.pulseaudio.extraConfig = ''
-    update-sink-proplist alsa_output.pci-0000_00_1f.3-platform-skl_hda_dsp_generic.HiFi__HDMI1__sink device.description='HDMI 1'
-    update-sink-proplist alsa_output.pci-0000_00_1f.3-platform-skl_hda_dsp_generic.HiFi__HDMI2__sink device.description='HDMI 2'
-    update-sink-proplist alsa_output.pci-0000_00_1f.3-platform-skl_hda_dsp_generic.HiFi__HDMI3__sink device.description='HDMI 3'
-    update-sink-proplist alsa_output.pci-0000_00_1f.3-platform-skl_hda_dsp_generic.HiFi__Speaker__sink device.description='Speaker + Headphones'
+  # hardware.pulseaudio.enable = true;
+  # hardware.pulseaudio.extraConfig = ''
+  #   update-sink-proplist alsa_output.pci-0000_00_1f.3-platform-skl_hda_dsp_generic.HiFi__HDMI1__sink device.description='HDMI 1'
+  #   update-sink-proplist alsa_output.pci-0000_00_1f.3-platform-skl_hda_dsp_generic.HiFi__HDMI2__sink device.description='HDMI 2'
+  #   update-sink-proplist alsa_output.pci-0000_00_1f.3-platform-skl_hda_dsp_generic.HiFi__HDMI3__sink device.description='HDMI 3'
+  #   update-sink-proplist alsa_output.pci-0000_00_1f.3-platform-skl_hda_dsp_generic.HiFi__Speaker__sink device.description='Speaker + Headphones'
 
-    update-source-proplist alsa_input.pci-0000_00_1f.3-platform-skl_hda_dsp_generic.HiFi__Mic1__source device.description='Laptop microphone'
-    update-source-proplist alsa_input.pci-0000_00_1f.3-platform-skl_hda_dsp_generic.HiFi__Mic2__source device.description='Headset microphone'
-  '';
+  #   update-source-proplist alsa_input.pci-0000_00_1f.3-platform-skl_hda_dsp_generic.HiFi__Mic1__source device.description='Laptop microphone'
+  #   update-source-proplist alsa_input.pci-0000_00_1f.3-platform-skl_hda_dsp_generic.HiFi__Mic2__source device.description='Headset microphone'
+  # '';
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    # If you want to use JACK applications, uncomment this
+    #jack.enable = true;
+  };
 
   services.logind = {
     lidSwitch = "ignore";
@@ -145,6 +173,7 @@ in {
 
   environment.systemPackages = with pkgs; [
     brightnessctl
+    pulseaudio
   ];
 
   programs.gnupg.agent = {

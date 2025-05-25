@@ -46,7 +46,7 @@
         xcwd xclip
 
         eog
-        evince mupdf pdfpc
+        evince mupdf beamerpresenter pdfpc
         zathura
         xournalpp
         feh
@@ -58,7 +58,7 @@
         wine
         winetricks
 
-        firefox
+        pkgs.firefox
         unstablePkgs.chromium
         thunderbird
 
@@ -67,13 +67,14 @@
         libreoffice
         vlc
         obs-studio
-        scrot
+        shotgun flameshot
 
         tdesktop
         hexchat
         unstablePkgs.mattermost-desktop
         unstablePkgs.discord
         unstablePkgs.signal-desktop
+        unstablePkgs.element-desktop
         unstablePkgs.whatsapp-for-linux
         unstablePkgs.element-desktop
       ];
