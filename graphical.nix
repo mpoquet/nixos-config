@@ -1,6 +1,7 @@
 { config, pkgs, unstablePkgs, localPkgs }:
 
 {
+  programs.i3lock.enable = true;
   # Enable the X11 windowing system.
   services.xserver = {
     enable = true;
@@ -69,13 +70,13 @@
         obs-studio
         shotgun flameshot
 
-        tdesktop
+        telegram-desktop
         hexchat
         unstablePkgs.mattermost-desktop
         unstablePkgs.discord
         unstablePkgs.signal-desktop
         unstablePkgs.element-desktop
-        unstablePkgs.whatsapp-for-linux
+        unstablePkgs.wasistlos
         unstablePkgs.element-desktop
       ];
     };
