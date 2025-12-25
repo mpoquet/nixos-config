@@ -117,6 +117,7 @@ in {
   environment.systemPackages = with unstablePkgs; [
     lapce
     pulseaudio
+    appimage-run
   ];
 
   virtualisation.docker.enable = true;
