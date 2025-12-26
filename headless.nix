@@ -3,7 +3,7 @@
 {
   environment.systemPackages = with pkgs; [
     man-pages fzf
-    vim
+    vim helix
     git tig
     pass ccrypt
     binutils pciutils acpi hwloc dust zenith
